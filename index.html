@@ -1,102 +1,1182 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حساب العربون</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>لوحة الإدارة - وضعيات التصوير الشعاعي</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
             font-family: 'Cairo', sans-serif;
-            background-color: #f0f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            direction: rtl;
         }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto;
+        }
+        
+        /* الهيدر */
+        .header {
             text-align: center;
-            width: 350px;
+            margin-bottom: 30px;
+            padding: 30px 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
         }
-        h2 {
-            margin-bottom: 20px;
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: shine 4s ease-in-out infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translate(-30%, -30%); }
+            100% { transform: translate(30%, 30%); }
+        }
+        
+        .header h1 { 
+            color: #2c3e50; 
+            font-weight: 800; 
+            font-size: 2rem; 
+            position: relative; 
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .header h1 i {
+            color: #667eea;
+        }
+        
+        .header .subtitle { 
+            color: #7f8c8d; 
+            font-size: 1rem; 
+            margin-top: 8px; 
+            position: relative; 
+            z-index: 1; 
+        }
+        
+        /* بطاقة الإضافة */
+        .card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             color: #2c3e50;
-            font-size: 24px;
-        }
-        input[type="number"] {
-            width: 95%;
-            padding: 12px 8px;
+            font-weight: 700;
+            font-size: 1.2rem;
             margin-bottom: 20px;
-            border: 2px solid #dcdde1;
-            border-radius: 10px;
-            font-size: 18px;
-            transition: border-color 0.3s ease;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f2f6;
         }
-        input[type="number"]:focus {
-            border-color: #3498db;
-            outline: none;
+        
+        .card-title i {
+            color: #667eea;
+            font-size: 1.4rem;
         }
-        button {
-            background-color: #3498db;
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label { 
+            display: block; 
+            font-weight: 600; 
+            margin-bottom: 6px; 
+            color: #2c3e50; 
+            font-size: 0.9rem; 
+        }
+        
+        label .required {
+            color: #e74c3c;
+        }
+        
+        input, select, textarea { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 2px solid #e9ecef; 
+            border-radius: 12px; 
+            font-size: 0.95rem; 
+            background: #f8f9fa; 
+            transition: all 0.3s ease; 
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        input:focus, select:focus, textarea:focus { 
+            border-color: #667eea; 
+            outline: none; 
+            background: white; 
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); 
+        }
+        
+        textarea { 
+            min-height: 80px; 
+            resize: vertical; 
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            grid-column: 1 / -1;
+        }
+        
+        .btn { 
+            padding: 14px 28px; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        
+        .btn-secondary {
+            background: #e9ecef;
+            color: #2c3e50;
+        }
+        
+        .btn-secondary:hover {
+            background: #dde1e6;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+        }
+        
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+            flex: 0 1 auto;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+        
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* أدوات البحث والفرز */
+        .filter-tools {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f2f6;
+        }
+        
+        .filter-tools .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-tools .search-box i {
+            position: absolute;
+            right: 15px;
+            color: #bdc3c7;
+            font-size: 1.1rem;
+        }
+        
+        .filter-tools .search-box input {
+            padding-right: 45px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
             width: 100%;
+            padding: 10px 15px 10px 45px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
-        button:hover {
-            background-color: #2980b9;
+        
+        .filter-tools .search-box input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
-        .result {
-            margin-top: 25px;
-            font-size: 22px;
-            color: #34495e;
-            font-weight: bold;
+        
+        .filter-tools .filter-select {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
-        @media (max-width: 400px) {
-            .container {
-                width: 90%;
-                padding: 20px;
+        
+        .filter-tools .filter-select i {
+            position: absolute;
+            right: 15px;
+            color: #bdc3c7;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+        
+        .filter-tools .filter-select select {
+            padding-right: 45px;
+            appearance: none;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            width: 100%;
+            padding: 10px 15px 10px 45px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tools .filter-select select:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+        
+        .filter-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .filter-stats .stats-badge {
+            background: #e9ecef;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        /* قائمة الوضعيات */
+        .positions-list {
+            margin-top: 10px;
+        }
+        
+        .position-item-admin {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            border-right: 4px solid #667eea;
+        }
+        
+        .position-item-admin:hover {
+            background: #f1f3f5;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .position-item-admin .pos-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+        
+        .position-item-admin .pos-info .pos-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .position-item-admin .pos-info .pos-details {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .position-item-admin .pos-info .pos-details .pos-name {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .position-item-admin .pos-info .pos-details .pos-region {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 2px;
+        }
+        
+        .position-item-admin .pos-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        
+        .position-item-admin .pos-actions .btn {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+        }
+        
+        /* حالة الرسائل */
+        .status-message {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-top: 15px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .status-message.show {
+            display: flex;
+        }
+        
+        .status-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        /* مؤشر التحميل */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+        }
+        
+        .loading-spinner.show {
+            display: block;
+        }
+        
+        .loading-spinner i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* فارغ */
+        .empty-state-admin {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+        
+        .empty-state-admin i {
+            font-size: 3rem;
+            color: #bdc3c7;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        /* رابط العودة */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .back-link:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* متجاوب */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-tools {
+                grid-template-columns: 1fr;
+            }
+            
+            .position-item-admin {
+                flex-direction: column;
+                gap: 12px;
+                align-items: stretch;
+            }
+            
+            .position-item-admin .pos-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .position-item-admin .pos-actions {
+                justify-content: flex-end;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                flex: 1;
+            }
+            
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .card {
+                padding: 18px;
             }
         }
+        
+        @media (max-width: 480px) {
+            body { padding: 12px; }
+            .header { padding: 20px 15px; }
+            .position-item-admin { padding: 12px 16px; }
+            .position-item-admin .pos-actions .btn {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* نافذة تأكيد الحذف */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalIn 0.3s ease-out;
+        }
+        
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .modal p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .modal .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .modal .btn-group .btn {
+            flex: 1;
+            max-width: 150px;
+        }
+        
+        /* تنسيق إضافي للفرز */
+        .filter-tools .filter-select select option {
+            padding: 8px;
+        }
+        
+        .filter-clear {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .filter-clear:hover {
+            background: #fee;
+            color: #c0392b;
+        }
+        
+        .filter-clear:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
-    <h2>حساب العربون</h2>
-    <input type="number" id="priceInput" placeholder="أدخل السعر بالدينار العراقي">
-    <button onclick="calculateDeposit()">احسب العربون</button>
-    <div class="result" id="result"></div>
+    <!-- الهيدر -->
+    <div class="header">
+        <h1>
+            <i class="fas fa-cog"></i>
+            لوحة الإدارة
+        </h1>
+        <p class="subtitle">إدارة وضعيات التصوير الشعاعي - إضافة، تعديل، حذف</p>
+    </div>
+
+    <!-- بطاقة إضافة/تعديل -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-plus-circle"></i>
+            <span id="formTitle">إضافة وضعية جديدة</span>
+        </div>
+        
+        <form id="uploadForm">
+            <input type="hidden" id="editId" value="">
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>اسم الوضعية <span class="required">*</span></label>
+                    <input type="text" id="posName" placeholder="مثال: AP Skull" required>
+                </div>
+
+                <div class="form-group">
+                    <label>المنطقة <span class="required">*</span></label>
+                    <select id="regionSelect" required>
+                        <option value="">-- اختر المنطقة --</option>
+                        <option value="SKULL">SKULL</option>
+                        <option value="MANDIBLE">MANDIBLE</option>
+                        <option value="CERVICAL SPINE">CERVICAL SPINE</option>
+                        <option value="SHOULDER">SHOULDER</option>
+                        <option value="HUMERUS">HUMERUS</option>
+                        <option value="ELBOW">ELBOW</option>
+                        <option value="FOREARM">FOREARM</option>
+                        <option value="WRIST">WRIST</option>
+                        <option value="HAND">HAND</option>
+                        <option value="CHEST">CHEST</option>
+                        <option value="THORACIC VERTEBRAE">THORACIC VERTEBRAE</option>
+                        <option value="ABDOMEN">ABDOMEN</option>
+                        <option value="LUMBOSACRAL SPINE">LUMBOSACRAL SPINE</option>
+                        <option value="PELVIS">PELVIS</option>
+                        <option value="SACRUM COCCYX">SACRUM COCCYX</option>
+                        <option value="FEMUR">FEMUR</option>
+                        <option value="KNEE">KNEE</option>
+                        <option value="PATELLA">PATELLA</option>
+                        <option value="LEG">LEG</option>
+                        <option value="ANKLE">ANKLE</option>
+                        <option value="FOOT">FOOT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>رابط الصورة الحقيقية <span class="required">*</span></label>
+                    <input type="url" id="realImg" placeholder="https://example.com/real.jpg" required>
+                </div>
+
+                <div class="form-group">
+                    <label>رابط الصورة الشعاعية <span class="required">*</span></label>
+                    <input type="url" id="xrayImg" placeholder="https://example.com/xray.jpg" required>
+                </div>
+
+                <div class="form-group">
+                    <label>قيمة KVP</label>
+                    <input type="text" id="kvp" placeholder="مثال: 70 kVp">
+                </div>
+
+                <div class="form-group">
+                    <label>قيمة MAS</label>
+                    <input type="text" id="mas" placeholder="مثال: 5 mAs">
+                </div>
+
+                <div class="form-group">
+                    <label>سنتر التصوير</label>
+                    <input type="text" id="center" placeholder="مثال: Midline, 2 cm above ...">
+                </div>
+
+                <div class="form-group full-width">
+                    <label>الغرض من الوضعية</label>
+                    <textarea id="purpose" placeholder="اذكر الغرض من هذه الوضعية ..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <i class="fas fa-save"></i>
+                        <span id="submitText">إضافة الوضعية</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn" style="display:none;">
+                        <i class="fas fa-times"></i>
+                        إلغاء
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+
+    <!-- قائمة الوضعيات مع الفرز -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fas fa-list"></i>
+            <span>جميع الوضعيات المضافة</span>
+            <span style="margin-right: auto; font-size: 0.9rem; color: #7f8c8d; font-weight: 400;" id="totalCount">(0)</span>
+        </div>
+        
+        <!-- أدوات البحث والفرز -->
+        <div class="filter-tools">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchFilter" placeholder="ابحث عن وضعية بالاسم ...">
+            </div>
+            <div class="filter-select">
+                <i class="fas fa-filter"></i>
+                <select id="regionFilter">
+                    <option value="all">جميع المناطق</option>
+                    <option value="SKULL">SKULL</option>
+                    <option value="MANDIBLE">MANDIBLE</option>
+                    <option value="CERVICAL SPINE">CERVICAL SPINE</option>
+                    <option value="SHOULDER">SHOULDER</option>
+                    <option value="HUMERUS">HUMERUS</option>
+                    <option value="ELBOW">ELBOW</option>
+                    <option value="FOREARM">FOREARM</option>
+                    <option value="WRIST">WRIST</option>
+                    <option value="HAND">HAND</option>
+                    <option value="CHEST">CHEST</option>
+                    <option value="THORACIC VERTEBRAE">THORACIC VERTEBRAE</option>
+                    <option value="ABDOMEN">ABDOMEN</option>
+                    <option value="LUMBOSACRAL SPINE">LUMBOSACRAL SPINE</option>
+                    <option value="PELVIS">PELVIS</option>
+                    <option value="SACRUM COCCYX">SACRUM COCCYX</option>
+                    <option value="FEMUR">FEMUR</option>
+                    <option value="KNEE">KNEE</option>
+                    <option value="PATELLA">PATELLA</option>
+                    <option value="LEG">LEG</option>
+                    <option value="ANKLE">ANKLE</option>
+                    <option value="FOOT">FOOT</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- إحصائيات الفلترة -->
+        <div class="filter-stats">
+            <span id="filterStats">عرض جميع الوضعيات</span>
+            <div>
+                <button class="filter-clear" id="clearFilterBtn" disabled>
+                    <i class="fas fa-times-circle"></i> إلغاء التصفية
+                </button>
+                <span class="stats-badge" id="filterCount">0</span>
+            </div>
+        </div>
+        
+        <div class="loading-spinner" id="loadingSpinner">
+            <i class="fas fa-spinner"></i>
+            جاري تحميل البيانات ...
+        </div>
+        
+        <div class="positions-list" id="positionsList"></div>
+    </div>
+
+    <!-- رابط العودة -->
+    <a href="user.html" class="back-link" target="_blank">
+        <i class="fas fa-arrow-left"></i>
+        العرض إلى صفحة المستخدم
+    </a>
 </div>
 
-<script>
-    function calculateDeposit() {
-        const price = parseInt(document.getElementById('priceInput').value);
-        let deposit = 0;
+<!-- نافذة تأكيد الحذف -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e74c3c; margin-bottom: 15px; display: block;"></i>
+        <h3>تأكيد الحذف</h3>
+        <p>هل أنت متأكد من حذف هذه الوضعية؟<br><strong id="deleteItemName" style="color: #2c3e50;"></strong></p>
+        <div class="btn-group">
+            <button class="btn btn-danger" id="confirmDelete">
+                <i class="fas fa-trash"></i>
+                حذف
+            </button>
+            <button class="btn btn-secondary" id="cancelDelete">
+                <i class="fas fa-times"></i>
+                إلغاء
+            </button>
+        </div>
+    </div>
+</div>
 
-        if (price >= 10000 && price <= 20000) {
-            deposit = 5000;
-        } else if (price >= 21000 && price <= 50000) {
-            deposit = 10000;
-        } else if (price >= 51000 && price <= 99000) {
-            deposit = 20000;
-        } else if (price >= 100000) {
-            deposit = Math.floor(price / 100000) * 25000;
+<script type="module">
+    // استيراد Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import { getDatabase, ref, onValue, push, set, remove } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCHTO1RQst9ts_4SR_Bd4Akb-4VljtNIOs",
+        authDomain: "lunex-jewe.firebaseapp.com",
+        databaseURL: "https://lunex-jewe-default-rtdb.firebaseio.com",
+        projectId: "lunex-jewe",
+        storageBucket: "lunex-jewe.firebasestorage.app",
+        messagingSenderId: "79262821764",
+        appId: "1:79262821764:web:3113f4bde757af46f0c1d1",
+        measurementId: "G-9ZE3SEMR38"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // عناصر DOM
+    const form = document.getElementById('uploadForm');
+    const formTitle = document.getElementById('formTitle');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const editId = document.getElementById('editId');
+    const posName = document.getElementById('posName');
+    const regionSelect = document.getElementById('regionSelect');
+    const realImg = document.getElementById('realImg');
+    const xrayImg = document.getElementById('xrayImg');
+    const kvp = document.getElementById('kvp');
+    const mas = document.getElementById('mas');
+    const center = document.getElementById('center');
+    const purpose = document.getElementById('purpose');
+    const statusMsg = document.getElementById('statusMessage');
+    const positionsList = document.getElementById('positionsList');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const totalCount = document.getElementById('totalCount');
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteItemName = document.getElementById('deleteItemName');
+    const confirmDelete = document.getElementById('confirmDelete');
+    const cancelDelete = document.getElementById('cancelDelete');
+    
+    // عناصر الفرز
+    const searchFilter = document.getElementById('searchFilter');
+    const regionFilter = document.getElementById('regionFilter');
+    const filterStats = document.getElementById('filterStats');
+    const filterCount = document.getElementById('filterCount');
+    const clearFilterBtn = document.getElementById('clearFilterBtn');
+
+    let allData = [];
+    let filteredData = [];
+    let deleteTargetId = null;
+
+    // عرض الرسائل
+    function showStatus(message, type = 'info') {
+        statusMsg.className = `status-message show ${type}`;
+        statusMsg.innerHTML = message;
+        
+        if (type !== 'info') {
+            setTimeout(() => {
+                statusMsg.className = 'status-message';
+            }, 5000);
         }
-
-        const formattedDeposit = deposit.toLocaleString('ar-EG') + " دينار";
-        document.getElementById('result').textContent = "العربون هو: " + formattedDeposit;
     }
+
+    // تحميل البيانات
+    function loadData() {
+        loadingSpinner.classList.add('show');
+        positionsList.innerHTML = '';
+        
+        const dataRef = ref(db, 'positions');
+        onValue(dataRef, (snapshot) => {
+            loadingSpinner.classList.remove('show');
+            const data = snapshot.val();
+            
+            if (data) {
+                allData = Object.keys(data).map(key => ({
+                    id: key,
+                    ...data[key]
+                }));
+                applyFilters();
+            } else {
+                allData = [];
+                applyFilters();
+            }
+        }, (error) => {
+            loadingSpinner.classList.remove('show');
+            showStatus('⚠️ حدث خطأ في تحميل البيانات: ' + error.message, 'error');
+        });
+    }
+
+    // تطبيق الفلاتر والبحث
+    function applyFilters() {
+        const searchTerm = searchFilter.value.trim().toLowerCase();
+        const regionTerm = regionFilter.value;
+        
+        // تصفية البيانات
+        filteredData = allData.filter(pos => {
+            // فلتر البحث بالاسم
+            const nameMatch = !searchTerm || (pos.name && pos.name.toLowerCase().includes(searchTerm));
+            
+            // فلتر المنطقة
+            const regionMatch = regionTerm === 'all' || pos.region === regionTerm;
+            
+            return nameMatch && regionMatch;
+        });
+        
+        // ترتيب تنازلي حسب التاريخ
+        filteredData.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        
+        // تحديث الإحصائيات
+        updateStats();
+        
+        // عرض النتائج
+        renderPositions(filteredData);
+        
+        // تحديث حالة زر إلغاء التصفية
+        clearFilterBtn.disabled = (searchTerm === '' && regionTerm === 'all');
+    }
+
+    // تحديث الإحصائيات
+    function updateStats() {
+        totalCount.textContent = `(${allData.length})`;
+        filterCount.textContent = filteredData.length;
+        
+        const regionName = regionFilter.value === 'all' ? 'جميع المناطق' : regionFilter.value;
+        const searchTerm = searchFilter.value.trim();
+        
+        if (searchTerm) {
+            filterStats.textContent = `نتائج البحث عن "${searchTerm}" في ${regionName}`;
+        } else {
+            filterStats.textContent = `عرض ${regionName}`;
+        }
+    }
+
+    // عرض الوضعيات
+    function renderPositions(positions) {
+        positionsList.innerHTML = '';
+        
+        if (positions.length === 0) {
+            const searchTerm = searchFilter.value.trim();
+            const regionTerm = regionFilter.value;
+            
+            let message = 'لا توجد وضعيات ';
+            if (searchTerm) message += `تطابق البحث "${searchTerm}" `;
+            if (regionTerm !== 'all') message += `في منطقة ${regionTerm} `;
+            if (!searchTerm && regionTerm === 'all') message = 'لا توجد وضعيات مضافة بعد.';
+            
+            positionsList.innerHTML = `
+                <div class="empty-state-admin">
+                    <i class="fas fa-inbox"></i>
+                    <p>${message}</p>
+                    <p style="font-size:0.9rem;color:#bdc3c7;">أضف أول وضعية من النموذج أعلاه</p>
+                </div>
+            `;
+            return;
+        }
+        
+        positions.forEach((pos, index) => {
+            const div = document.createElement('div');
+            div.className = 'position-item-admin';
+            div.innerHTML = `
+                <div class="pos-info">
+                    <div class="pos-icon">${index + 1}</div>
+                    <div class="pos-details">
+                        <div class="pos-name">${pos.name || 'بدون اسم'}</div>
+                        <div class="pos-region">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${pos.region || 'غير محدد'}
+                        </div>
+                    </div>
+                </div>
+                <div class="pos-actions">
+                    <button class="btn btn-secondary btn-sm edit-btn" data-id="${pos.id}">
+                        <i class="fas fa-edit"></i>
+                        تعديل
+                    </button>
+                    <button class="btn btn-danger btn-sm delete-btn" data-id="${pos.id}">
+                        <i class="fas fa-trash"></i>
+                        حذف
+                    </button>
+                </div>
+            `;
+            positionsList.appendChild(div);
+        });
+        
+        // إضافة أحداث الأزرار
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const pos = allData.find(p => p.id === id);
+                if (pos) editPosition(pos);
+            });
+        });
+        
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.dataset.id;
+                const pos = allData.find(p => p.id === id);
+                if (pos) showDeleteModal(pos);
+            });
+        });
+    }
+
+    // تعديل وضعية
+    function editPosition(pos) {
+        formTitle.innerHTML = '<i class="fas fa-edit"></i> تعديل الوضعية';
+        submitText.textContent = 'تحديث الوضعية';
+        submitBtn.className = 'btn btn-success';
+        cancelBtn.style.display = 'flex';
+        
+        editId.value = pos.id;
+        posName.value = pos.name || '';
+        regionSelect.value = pos.region || '';
+        realImg.value = pos.realImg || '';
+        xrayImg.value = pos.xrayImg || '';
+        kvp.value = pos.kvp || '';
+        mas.value = pos.mas || '';
+        center.value = pos.center || '';
+        purpose.value = pos.purpose || '';
+        
+        // تمرير إلى النموذج
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // إلغاء التعديل
+    function cancelEdit() {
+        formTitle.innerHTML = '<i class="fas fa-plus-circle"></i> إضافة وضعية جديدة';
+        submitText.textContent = 'إضافة الوضعية';
+        submitBtn.className = 'btn btn-primary';
+        cancelBtn.style.display = 'none';
+        editId.value = '';
+        form.reset();
+        showStatus('', 'info');
+    }
+
+    // عرض نافذة تأكيد الحذف
+    function showDeleteModal(pos) {
+        deleteTargetId = pos.id;
+        deleteItemName.textContent = pos.name || 'بدون اسم';
+        deleteModal.classList.add('show');
+    }
+
+    // حذف وضعية
+    async function deletePosition(id) {
+        try {
+            await remove(ref(db, `positions/${id}`));
+            showStatus('✅ تم حذف الوضعية بنجاح', 'success');
+            deleteModal.classList.remove('show');
+            deleteTargetId = null;
+        } catch (error) {
+            showStatus('❌ حدث خطأ أثناء الحذف: ' + error.message, 'error');
+        }
+    }
+
+    // إرسال النموذج
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const id = editId.value;
+        const data = {
+            name: posName.value.trim(),
+            region: regionSelect.value,
+            realImg: realImg.value.trim(),
+            xrayImg: xrayImg.value.trim(),
+            kvp: kvp.value.trim(),
+            mas: mas.value.trim(),
+            center: center.value.trim(),
+            purpose: purpose.value.trim(),
+            timestamp: Date.now()
+        };
+        
+        // تحقق من الحقول الإلزامية
+        if (!data.name || !data.region || !data.realImg || !data.xrayImg) {
+            showStatus('⚠️ يرجى تعبئة جميع الحقول الإلزامية (اسم الوضعية، المنطقة، رابط الصورة الحقيقية، رابط الصورة الشعاعية).', 'error');
+            return;
+        }
+        
+        // تعطيل الزر
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ ...';
+        
+        try {
+            if (id) {
+                // تحديث
+                await set(ref(db, `positions/${id}`), data);
+                showStatus('✅ تم تحديث الوضعية بنجاح', 'success');
+                cancelEdit();
+            } else {
+                // إضافة جديدة
+                const positionsRef = ref(db, 'positions');
+                await push(positionsRef, data);
+                showStatus('✅ تم إضافة الوضعية بنجاح', 'success');
+                form.reset();
+            }
+        } catch (error) {
+            showStatus('❌ حدث خطأ: ' + error.message, 'error');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="fas fa-save"></i> ${id ? 'تحديث الوضعية' : 'إضافة الوضعية'}`;
+        }
+    });
+
+    // إلغاء التعديل
+    cancelBtn.addEventListener('click', cancelEdit);
+
+    // تأكيد الحذف
+    confirmDelete.addEventListener('click', () => {
+        if (deleteTargetId) {
+            deletePosition(deleteTargetId);
+        }
+    });
+
+    // إلغاء الحذف
+    cancelDelete.addEventListener('click', () => {
+        deleteModal.classList.remove('show');
+        deleteTargetId = null;
+    });
+
+    // إغلاق النافذة عند النقر خارجها
+    deleteModal.addEventListener('click', (e) => {
+        if (e.target === deleteModal) {
+            deleteModal.classList.remove('show');
+            deleteTargetId = null;
+        }
+    });
+
+    // أحداث الفرز والبحث
+    searchFilter.addEventListener('input', () => {
+        applyFilters();
+    });
+    
+    regionFilter.addEventListener('change', () => {
+        applyFilters();
+    });
+    
+    clearFilterBtn.addEventListener('click', () => {
+        searchFilter.value = '';
+        regionFilter.value = 'all';
+        applyFilters();
+    });
+
+    // التهيئة
+    loadData();
 </script>
 
 </body>
